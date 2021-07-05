@@ -1,12 +1,15 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
+import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/screens/feeds/feeds_product.dart';
+import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 
 class FeedsPage extends StatefulWidget {
-  FeedsPage({Key? key}) : super(key: key);
+  final String? category;
+  FeedsPage({Key? key, this.category}) : super(key: key);
 
   @override
   _FeedsPageState createState() => _FeedsPageState();
@@ -14,10 +17,31 @@ class FeedsPage extends StatefulWidget {
 
 class _FeedsPageState extends State<FeedsPage> {
   bool isDark = ThemeService().isSavedDarkMode();
+  ProductController _productController = Get.put(ProductController());
+  String categoryName = '';
+  List<Product> _list = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.category == '') {
+      _list = _productController.products;
+    } else {
+      categoryName = Get.arguments[0];
+      if (categoryName == '')
+        _list = _productController.products;
+      else if (categoryName == 'popular')
+        _list = _productController.getPopularItems();
+      else
+        _list = _productController.categoryItems(categoryName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text("Feeds",
             style: Theme.of(context).appBarTheme.textTheme!.headline1),
         actions: [
@@ -39,22 +63,16 @@ class _FeedsPageState extends State<FeedsPage> {
           ),
         ],
       ),
-      body: StaggeredGridView.countBuilder(
-        padding: const EdgeInsets.all(8),
-        crossAxisCount: 6,
-        itemCount: 8,
-        itemBuilder: (context, index) => FeedsProduct(),
-        staggeredTileBuilder: (index) =>
-            new StaggeredTile.count(3, index.isEven ? 4 : 5),
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 6,
+      body: Container(
+        padding: const EdgeInsets.only(top: 8),
+        child: GridView.count(
+            crossAxisCount: 2,
+            childAspectRatio: 240 / 290,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            children: List.generate(
+                _list.length, (index) => FeedsProduct(product: _list[index]))),
       ),
-      // child: GridView.count(
-      //     crossAxisCount: 2,
-      //     childAspectRatio: 240 / 290,
-      //     crossAxisSpacing: 8,
-      //     mainAxisSpacing: 8,
-      //     children: List.generate(100, (index) => FeedsProduct())),
     );
   }
 }

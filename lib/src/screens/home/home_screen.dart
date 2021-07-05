@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _pages = [
       {'page': HomePage()},
-      {'page': FeedsPage()},
+      {'page': FeedsPage(category: '')},
       {'page': SearchPage()},
       {'page': CartPage()},
       {'page': UserPage()},

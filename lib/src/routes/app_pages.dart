@@ -6,6 +6,8 @@ import 'package:shopappfirebase/src/screens/home/pages/feeds.dart';
 import 'package:shopappfirebase/src/screens/home/pages/home.dart';
 import 'package:shopappfirebase/src/screens/home/pages/search.dart';
 import 'package:shopappfirebase/src/screens/home/pages/user.dart';
+import 'package:shopappfirebase/src/screens/products/pages/product_detail.dart';
+import 'package:shopappfirebase/src/screens/user_info/pages/wishlist.dart';
 
 part 'app_routes.dart';
 
@@ -22,5 +24,8 @@ class AppPages {
     GetPage(name: Routes.CARTPAGE, page: () => CartPage(), children: []),
     GetPage(name: Routes.USERPAGE, page: () => UserPage(), children: []),
     GetPage(name: Routes.SEARCHPAGE, page: () => SearchPage(), children: []),
+    GetPage(name: Routes.WISHLIST, page: () => WishList(), children: []),
+    GetPage(
+        name: Routes.PRODUCTDETAIL, page: () => ProductDetail(), children: []),
   ];
 }

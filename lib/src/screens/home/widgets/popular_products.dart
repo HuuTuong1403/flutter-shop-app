@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
+import 'package:shopappfirebase/src/models/product.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
+import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 
 class PopularProducts extends StatefulWidget {
   final int index;
-  PopularProducts({Key? key, required this.index}) : super(key: key);
+  final Product product;
+  PopularProducts({Key? key, required this.index, required this.product})
+      : super(key: key);
 
   @override
   _PopularProductsState createState() => _PopularProductsState();
 }
 
 class _PopularProductsState extends State<PopularProducts> {
+  CartController _cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +36,9 @@ class _PopularProductsState extends State<PopularProducts> {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10)),
-            onTap: () {},
+            onTap: () {
+              Get.toNamed(Routes.PRODUCTDETAIL, arguments: [widget.product.id]);
+            },
             child: Column(
               children: [
                 Stack(
@@ -37,9 +47,8 @@ class _PopularProductsState extends State<PopularProducts> {
                       height: 170,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                              'https://images.unsplash.com/photo-1575501265016-ae78c708a09c?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y291Y2h8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
-                          fit: BoxFit.cover,
+                          image: NetworkImage('${widget.product.imageUrl}'),
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
@@ -65,7 +74,7 @@ class _PopularProductsState extends State<PopularProducts> {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         color: Theme.of(context).backgroundColor,
-                        child: Text("\$ 12.2",
+                        child: Text("\$ ${widget.product.price}",
                             style: TextStyle(color: Colors.black)),
                       ),
                     ),
@@ -76,27 +85,54 @@ class _PopularProductsState extends State<PopularProducts> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('title',
+                      Text('${widget.product.title}',
                           maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Desciption',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              color: Colors.grey[800],
+                          Expanded(
+                            flex: 5,
+                            child: Text(
+                              '${widget.product.description}',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                                color: Colors.grey[800],
+                              ),
                             ),
                           ),
-                          IconButton(
-                              icon: Icon(MaterialCommunityIcons.cart_plus,
-                                  size: 25, color: Colors.black),
-                              onPressed: () {}),
+                          Expanded(
+                            flex: 1,
+                            child: Obx(() => IconButton(
+                                  icon: _cartController.cartItems
+                                          .containsKey(widget.product.id)
+                                      ? Icon(Icons.check,
+                                          size: 25, color: Colors.black)
+                                      : Icon(MaterialCommunityIcons.cart_plus,
+                                          size: 25, color: Colors.black),
+                                  onPressed: _cartController.cartItems
+                                          .containsKey(widget.product.id)
+                                      ? () {
+                                          Get.snackbar('Thông báo',
+                                              'Món hàng đã có trong giỏ hàng',
+                                              margin: const EdgeInsets.all(10),
+                                              backgroundColor: Theme.of(context)
+                                                  .backgroundColor);
+                                        }
+                                      : () {
+                                          _cartController.addProductToCart(
+                                              '${widget.product.id}',
+                                              widget.product.price!,
+                                              '${widget.product.title}',
+                                              '${widget.product.imageUrl}');
+                                        },
+                                )),
+                          ),
                         ],
                       ),
                     ],

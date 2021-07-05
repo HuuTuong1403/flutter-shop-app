@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class CategoryWidget extends StatefulWidget {
   final int index;
@@ -51,18 +53,24 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-                image: NetworkImage(
-                  categories[widget.index]['categoryImagePath']!,
-                ),
-                fit: BoxFit.cover),
+        InkWell(
+          onTap: () {
+            Get.toNamed(Routes.FEEDSPAGE,
+                arguments: ['${categories[widget.index]['categoryName']}']);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                  image: NetworkImage(
+                    categories[widget.index]['categoryImagePath']!,
+                  ),
+                  fit: BoxFit.cover),
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            width: 150,
+            height: 150,
           ),
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          width: 150,
-          height: 150,
         ),
         Positioned(
           bottom: 0,

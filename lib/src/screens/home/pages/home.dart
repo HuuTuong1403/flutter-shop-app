@@ -2,9 +2,14 @@ import 'package:backdrop/backdrop.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/models/product.dart';
+import 'package:shopappfirebase/src/screens/home/widgets/back_layer.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/category.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/popular_products.dart';
+import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -29,6 +34,15 @@ class _HomePageState extends State<HomePage> {
     'assets/images/nike.jpg',
     'assets/images/samsung.jpg'
   ];
+
+  ProductController _productController = Get.put(ProductController());
+  List<Product> _listPopular = [];
+  @override
+  void initState() {
+    super.initState();
+    _listPopular = _productController.getPopularItems();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +74,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        backLayer: Center(
-          child: Text("Back Layer"),
-        ),
+        backLayer: BackLayerMenu(),
         frontLayer: SingleChildScrollView(
           child: Column(
             children: [
@@ -125,9 +137,9 @@ class _HomePageState extends State<HomePage> {
                 height: 285,
                 margin: const EdgeInsets.symmetric(horizontal: 3),
                 child: ListView.builder(
-                    itemCount: 8,
-                    itemBuilder: (context, index) =>
-                        PopularProducts(index: index),
+                    itemCount: _listPopular.length,
+                    itemBuilder: (context, index) => PopularProducts(
+                        index: index, product: _listPopular[index]),
                     scrollDirection: Axis.horizontal),
               ),
               _categoriesTile(title: "Viewed recently", showViewAll: true),
@@ -153,7 +165,9 @@ class _HomePageState extends State<HomePage> {
           ),
           showViewAll
               ? TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.FEEDSPAGE, arguments: ['popular']);
+                  },
                   child: Text(
                     "View all >>",
                     style: TextStyle(

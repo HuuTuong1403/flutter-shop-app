@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/screens/cart/cart_empty.dart';
 import 'package:shopappfirebase/src/screens/cart/cart_full.dart';
+import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key? key}) : super(key: key);
@@ -12,33 +14,96 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  @override
-  Widget build(BuildContext context) {
-    List product = [];
-    return product.isEmpty
-        ? Scaffold(body: CartEmpty())
-        : Scaffold(
-            appBar: AppBar(
-              title: Text("Cart(${product.length})",
-                  style: Theme.of(context).appBarTheme.textTheme!.headline1),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Feather.trash),
+  CartController _cartController = Get.put(CartController());
+
+  Future<void> showDialog(
+      {required String title,
+      required String subtitle,
+      required Function fct}) async {
+    Get.defaultDialog(
+      backgroundColor: Theme.of(context).backgroundColor,
+      title: title.toUpperCase(),
+      titleStyle: TextStyle(color: Colors.redAccent),
+      content: Text(subtitle, textAlign: TextAlign.center),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(15),
                 ),
-              ],
-            ),
-            body: Container(
-              margin: const EdgeInsets.only(bottom: 60),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return CartFull();
+                onPressed: () {
+                  Get.back();
                 },
+                child: Text('Cancel',
+                    style: TextStyle(
+                        color: Colors.purple, fontWeight: FontWeight.w600)),
               ),
             ),
-            bottomSheet: checkoutSection(),
-          );
+            Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(15),
+                ),
+                onPressed: () {
+                  fct();
+                  Get.back();
+                },
+                child: Text('Cofirm',
+                    style: TextStyle(
+                        color: Colors.purple, fontWeight: FontWeight.w600)),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => _cartController.cartItems.isEmpty
+          ? Scaffold(body: CartEmpty())
+          : Scaffold(
+              appBar: AppBar(
+                title: Text("Cart (${_cartController.cartItems.length})",
+                    style: Theme.of(context).appBarTheme.textTheme!.headline1),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          title: 'Clear item!',
+                          subtitle:
+                              'Product will be clear all in this cart. Do you want to do?',
+                          fct: () {
+                            _cartController.clearCart();
+                          });
+                    },
+                    icon: Icon(Feather.trash),
+                  ),
+                ],
+              ),
+              body: Container(
+                margin: const EdgeInsets.only(bottom: 60),
+                child: ListView.builder(
+                  itemCount: _cartController.cartItems.length,
+                  itemBuilder: (context, index) {
+                    return CartFull(
+                      cart: _cartController.cartItems.values.toList()[index],
+                      productId: _cartController.cartItems.keys.toList()[index],
+                      index: index,
+                    );
+                  },
+                ),
+              ),
+              bottomSheet: checkoutSection(),
+            ),
+    );
   }
 
   Widget checkoutSection() {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class UserPage extends StatefulWidget {
   UserPage({Key? key}) : super(key: key);
@@ -99,6 +101,14 @@ class _UserPageState extends State<UserPage> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(10),
+                      child: _userTitle('User Bag'),
+                    ),
+                    _userBag(
+                        'Wishlist', Routes.WISHLIST, Ionicons.ios_heart_empty),
+                    _userBag(
+                        'Cart', Routes.CARTPAGE, MaterialCommunityIcons.cart),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
                       child: _userTitle('User Information'),
                     ),
                     Divider(
@@ -139,6 +149,23 @@ class _UserPageState extends State<UserPage> {
           ),
           _buildFab(),
         ],
+      ),
+    );
+  }
+
+  Widget _userBag(String title, String route, IconData icon) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        splashColor: Theme.of(context).splashColor,
+        child: ListTile(
+          title: Text(title),
+          leading: Icon(icon),
+          trailing: Icon(Icons.chevron_right_outlined),
+          onTap: () {
+            Get.toNamed(route);
+          },
+        ),
       ),
     );
   }
