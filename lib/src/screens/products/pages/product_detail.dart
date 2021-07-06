@@ -359,7 +359,6 @@ class _ProductDetailState extends State<ProductDetail> {
                             _detail.price!,
                             '${_detail.title}',
                             '${_detail.imageUrl}');
-                        print('${_wishlistController.favItems.length}');
                       },
                       child: Center(
                         child: Obx(() => Icon(

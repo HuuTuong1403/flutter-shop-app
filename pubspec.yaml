@@ -38,6 +38,7 @@ dependencies:
   get_storage: ^2.0.2
   intl: ^0.17.0
   list_tile_switch: ^1.0.0
+  wave: ^0.2.0
 
 dev_dependencies:
   flutter_test:

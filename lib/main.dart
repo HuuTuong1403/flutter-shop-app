@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shopappfirebase/src/lang/translation_service.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
+import 'package:shopappfirebase/src/screens/authentication/widgets/landing_page.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 import 'package:shopappfirebase/src/themes/themes.dart';
 

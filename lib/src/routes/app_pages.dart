@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/app.dart';
+import 'package:shopappfirebase/src/screens/authentication/pages/login_page.dart';
+import 'package:shopappfirebase/src/screens/authentication/pages/signup_page.dart';
 import 'package:shopappfirebase/src/screens/home/home_screen.dart';
 import 'package:shopappfirebase/src/screens/home/pages/cart.dart';
 import 'package:shopappfirebase/src/screens/home/pages/feeds.dart';
@@ -27,5 +29,9 @@ class AppPages {
     GetPage(name: Routes.WISHLIST, page: () => WishList(), children: []),
     GetPage(
         name: Routes.PRODUCTDETAIL, page: () => ProductDetail(), children: []),
+
+    //AUTHENTICATION PAGE
+    GetPage(name: Routes.LOGIN, page: () => LoginPage(), children: []),
+    GetPage(name: Routes.SIGNUP, page: () => SignUpPage(), children: []),
   ];
 }

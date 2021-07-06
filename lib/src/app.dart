@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopappfirebase/src/screens/authentication/widgets/landing_page.dart';
 import 'package:shopappfirebase/src/screens/home/home_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,6 +7,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return LandingPage();
   }
 }

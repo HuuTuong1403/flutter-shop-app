@@ -141,6 +141,14 @@ class ProductController extends GetxController {
     return _product;
   }
 
+  List<Product> searchQuery(String search) {
+    var _searchList = products
+        .where(
+            (item) => item.title!.toLowerCase().contains(search.toLowerCase()))
+        .toList();
+    return _searchList;
+  }
+
   @override
   void dispose() {
     super.dispose();

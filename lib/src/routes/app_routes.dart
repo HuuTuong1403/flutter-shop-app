@@ -12,4 +12,8 @@ abstract class Routes {
   static const SEARCHPAGE = '/searchpage';
   static const WISHLIST = '/wishlist';
   static const PRODUCTDETAIL = '/productdetail';
+
+  //ROUTES AUTHENTICATION SCREEN
+  static const LOGIN = '/login';
+  static const SIGNUP = '/signup';
 }
