@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/feeds/feeds_product.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
+import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 
@@ -23,6 +25,8 @@ class _ProductDetailState extends State<ProductDetail> {
   String productId = Get.arguments[0];
   CartController _cartController = Get.put(CartController());
   ProductController _productController = Get.put(ProductController());
+  WishlistController _wishlistController = Get.find();
+
   Product _detail = Product();
 
   @override
@@ -245,18 +249,37 @@ class _ProductDetailState extends State<ProductDetail> {
                     color: isDark ? Colors.white : Colors.black),
               ),
               actions: [
-                IconButton(
-                  icon: Icon(Icons.favorite_border, color: AppColor.favColor),
-                  onPressed: () {
-                    Get.toNamed(Routes.WISHLIST);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Ionicons.md_cart, color: Colors.purple),
-                  onPressed: () {
-                    Get.toNamed(Routes.CARTPAGE);
-                  },
-                ),
+                Obx(() => Badge(
+                      badgeColor: AppColor.favBadgeColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: 3, end: 1),
+                      badgeContent: Text(
+                          _wishlistController.favItems.length.toString(),
+                          style: TextStyle(color: Colors.white)),
+                      child: IconButton(
+                        icon: Icon(Icons.favorite_border,
+                            color: AppColor.favColor),
+                        onPressed: () {
+                          Get.toNamed(Routes.WISHLIST);
+                        },
+                      ),
+                    )),
+                Obx(() => Badge(
+                      badgeColor: AppColor.cartBadgeColor,
+                      animationType: BadgeAnimationType.slide,
+                      toAnimate: true,
+                      position: BadgePosition.topEnd(top: 3, end: 1),
+                      badgeContent: Text(
+                          _cartController.cartItems.length.toString(),
+                          style: TextStyle(color: Colors.white)),
+                      child: IconButton(
+                        icon: Icon(Ionicons.md_cart, color: Colors.purple),
+                        onPressed: () {
+                          Get.toNamed(Routes.CARTPAGE);
+                        },
+                      ),
+                    )),
               ],
             ),
           ),
@@ -330,12 +353,25 @@ class _ProductDetailState extends State<ProductDetail> {
                     height: 50,
                     child: InkWell(
                       splashColor: AppColor.favColor,
-                      onTap: () {},
+                      onTap: () {
+                        _wishlistController.addFavoriteItems(
+                            '${_detail.id}',
+                            _detail.price!,
+                            '${_detail.title}',
+                            '${_detail.imageUrl}');
+                        print('${_wishlistController.favItems.length}');
+                      },
                       child: Center(
-                        child: Icon(
-                          Ionicons.ios_heart_empty,
-                          color: Colors.white,
-                        ),
+                        child: Obx(() => Icon(
+                              _wishlistController.favItems
+                                      .containsKey(_detail.id)
+                                  ? Icons.favorite
+                                  : Ionicons.ios_heart_empty,
+                              color: _wishlistController.favItems
+                                      .containsKey(_detail.id)
+                                  ? Colors.red
+                                  : Colors.white,
+                            )),
                       ),
                     ),
                   ),

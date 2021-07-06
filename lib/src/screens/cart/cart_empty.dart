@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class CartEmpty extends StatelessWidget {
   const CartEmpty({Key? key}) : super(key: key);
@@ -46,7 +48,9 @@ class CartEmpty extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(Routes.FEEDSPAGE, arguments: ['']);
+            },
             child: Text(
               "SHOP NOW",
               style: TextStyle(

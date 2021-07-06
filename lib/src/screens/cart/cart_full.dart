@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/models/cart.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 
@@ -25,54 +26,7 @@ class _CartFullState extends State<CartFull> {
   bool isDark = ThemeService().isSavedDarkMode();
   double subtotal = 0.0;
   CartController _cartController = Get.put(CartController());
-
-  Future<void> showDialog(
-      {required String title,
-      required String subtitle,
-      required Function fct}) async {
-    Get.defaultDialog(
-      backgroundColor: Theme.of(context).backgroundColor,
-      title: title.toUpperCase(),
-      titleStyle: TextStyle(color: Colors.redAccent),
-      content: Text(subtitle, textAlign: TextAlign.center),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(15),
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-                child: Text('Cancel',
-                    style: TextStyle(
-                        color: Colors.purple, fontWeight: FontWeight.w600)),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(15),
-                ),
-                onPressed: () {
-                  fct();
-                  Get.back();
-                },
-                child: Text('Cofirm',
-                    style: TextStyle(
-                        color: Colors.purple, fontWeight: FontWeight.w600)),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  GlobalMethods _globalMethods = GlobalMethods();
 
   @override
   void initState() {
@@ -129,14 +83,15 @@ class _CartFullState extends State<CartFull> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
-                              showDialog(
+                              _globalMethods.showDialog(
                                   title: 'Remove item!',
                                   subtitle:
                                       'Product will removed from this cart. Do you want to remove this item?',
                                   fct: () {
                                     _cartController
                                         .removeItem(widget.productId);
-                                  });
+                                  },
+                                  context: context);
                             },
                             child: Container(
                               height: 50,
@@ -169,9 +124,15 @@ class _CartFullState extends State<CartFull> {
                           style: TextStyle(),
                         ),
                         SizedBox(width: 5),
-                        Obx(
-                          () => Text(
-                            "\$ ${_cartController.cartItems.values.toList()[widget.index].quantity * _cartController.cartItems.values.toList()[widget.index].price}",
+                        Obx(() {
+                          double total = _cartController.cartItems.values
+                                  .toList()[widget.index]
+                                  .quantity *
+                              _cartController.cartItems.values
+                                  .toList()[widget.index]
+                                  .price;
+                          return Text(
+                            "\$ ${total.toStringAsFixed(3)}",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -179,8 +140,8 @@ class _CartFullState extends State<CartFull> {
                                   ? Colors.brown.shade900
                                   : Theme.of(context).accentColor,
                             ),
-                          ),
-                        ),
+                          );
+                        })
                       ],
                     ),
                     Row(

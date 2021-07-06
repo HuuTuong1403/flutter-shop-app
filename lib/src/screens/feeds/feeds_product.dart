@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
+import 'package:shopappfirebase/src/screens/feeds/widgets/feeds_dialog.dart';
 
 class FeedsProduct extends StatefulWidget {
   final Product product;
@@ -97,7 +98,12 @@ class _FeedsProductState extends State<FeedsProduct> {
                         ),
                         IconButton(
                             icon: Icon(Icons.more_horiz, color: Colors.grey),
-                            onPressed: () {}),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => FeedsDialog(
+                                      productId: '${widget.product.id}'));
+                            }),
                       ],
                     ),
                   ],

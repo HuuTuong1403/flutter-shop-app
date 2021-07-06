@@ -10,6 +10,7 @@ import 'package:shopappfirebase/src/screens/home/widgets/category.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/popular_products.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
+import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
 
   ProductController _productController = Get.put(ProductController());
   List<Product> _listPopular = [];
+  WishlistController _wishlistController = Get.put(WishlistController());
   @override
   void initState() {
     super.initState();

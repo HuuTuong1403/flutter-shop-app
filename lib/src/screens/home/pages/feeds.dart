@@ -2,9 +2,12 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/models/product.dart';
+import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/feeds/feeds_product.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
+import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 
 class FeedsPage extends StatefulWidget {
@@ -18,6 +21,8 @@ class FeedsPage extends StatefulWidget {
 class _FeedsPageState extends State<FeedsPage> {
   bool isDark = ThemeService().isSavedDarkMode();
   ProductController _productController = Get.put(ProductController());
+  CartController _cartController = Get.find();
+  WishlistController _wishlistController = Get.find();
   String categoryName = '';
   List<Product> _list = [];
 
@@ -45,22 +50,32 @@ class _FeedsPageState extends State<FeedsPage> {
         title: Text("Feeds",
             style: Theme.of(context).appBarTheme.textTheme!.headline1),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Badge(
-              badgeContent: Text("3", style: TextStyle(color: Colors.white)),
-              badgeColor: Colors.purple,
-              child: Icon(Icons.favorite_border_outlined, color: Colors.red),
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Badge(
-              badgeContent: Text("3", style: TextStyle(color: Colors.white)),
-              badgeColor: Colors.purple,
-              child: Icon(Ionicons.md_cart, color: Colors.purple),
-            ),
-          ),
+          Obx(() => IconButton(
+                onPressed: () {},
+                icon: Badge(
+                  badgeColor: AppColor.favBadgeColor,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  badgeContent: Text(
+                      _wishlistController.favItems.length.toString(),
+                      style: TextStyle(color: Colors.white)),
+                  child:
+                      Icon(Icons.favorite_border_outlined, color: Colors.red),
+                ),
+              )),
+          Obx(() => IconButton(
+                onPressed: () {},
+                icon: Badge(
+                  badgeColor: AppColor.cartBadgeColor,
+                  animationType: BadgeAnimationType.slide,
+                  toAnimate: true,
+                  position: BadgePosition.topEnd(end: -7),
+                  badgeContent: Text(
+                      _cartController.cartItems.length.toString(),
+                      style: TextStyle(color: Colors.white)),
+                  child: Icon(Ionicons.md_cart, color: Colors.purple),
+                ),
+              )),
         ],
       ),
       body: Container(

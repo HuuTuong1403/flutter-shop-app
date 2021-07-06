@@ -109,7 +109,7 @@ class BackLayerMenu extends StatelessWidget {
                 }, 'Cart', 1),
                 const SizedBox(height: 10),
                 content(context, () {
-                  navigateTo(context, Routes.FEEDSPAGE);
+                  navigateTo(context, Routes.WISHLIST);
                 }, 'WishList', 2),
                 const SizedBox(height: 10),
                 content(context, () {

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
+import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 
 class PopularProducts extends StatefulWidget {
   final int index;
@@ -17,6 +18,7 @@ class PopularProducts extends StatefulWidget {
 
 class _PopularProductsState extends State<PopularProducts> {
   CartController _cartController = Get.put(CartController());
+  WishlistController _wishlistController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +55,19 @@ class _PopularProductsState extends State<PopularProducts> {
                       ),
                     ),
                     Positioned(
-                      right: 12,
-                      top: 10,
-                      child: Icon(
-                        Entypo.star,
-                        color: Colors.grey.shade800,
-                      ),
+                      right: 10,
+                      top: 8,
+                      child: Obx(() => Icon(
+                            Entypo.star,
+                            color: _wishlistController.favItems
+                                    .containsKey(widget.product.id)
+                                ? Colors.red
+                                : Colors.grey.shade800,
+                          )),
                     ),
                     Positioned(
                       right: 10,
-                      top: 7,
+                      top: 8,
                       child: Icon(
                         Entypo.star_outlined,
                         color: Colors.white,

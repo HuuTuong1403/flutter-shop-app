@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/models/favorite.dart';
+import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 
 class WishListFull extends StatefulWidget {
-  WishListFull({Key? key}) : super(key: key);
+  final Favorite fav;
+  final String favId;
+  final int index;
+  WishListFull(
+      {Key? key, required this.fav, required this.favId, required this.index})
+      : super(key: key);
 
   @override
   _WishListFullState createState() => _WishListFullState();
 }
 
 class _WishListFullState extends State<WishListFull> {
+  GlobalMethods _globalMethods = GlobalMethods();
+  WishlistController _wishlistController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -28,8 +39,7 @@ class _WishListFullState extends State<WishListFull> {
                   children: <Widget>[
                     Container(
                       height: 80,
-                      child: Image.network(
-                          'https://images.unsplash.com/photo-1606308338792-186193fcb2ba?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aXBob25lMTJ8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+                      child: Image.network('${widget.fav.imageUrl}'),
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -37,13 +47,13 @@ class _WishListFullState extends State<WishListFull> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Iphone 12 Pro',
+                            '${widget.fav.title}',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 20),
                           Text(
-                            '\$ 50.99',
+                            '\$ ${widget.fav.price}',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
@@ -75,7 +85,16 @@ class _WishListFullState extends State<WishListFull> {
           padding: const EdgeInsets.all(0),
           color: AppColor.favColor,
           child: Icon(Icons.clear, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            _globalMethods.showDialog(
+                title: 'Remove item!',
+                subtitle:
+                    'Product will removed from this cart. Do you want to remove this item?',
+                fct: () {
+                  _wishlistController.removeItem(widget.favId);
+                },
+                context: context);
+          },
         ),
       ),
     );

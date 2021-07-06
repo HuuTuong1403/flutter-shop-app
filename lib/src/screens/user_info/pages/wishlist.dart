@@ -1,34 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart'; 
+import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 import 'package:shopappfirebase/src/screens/user_info/widgets/wishlist_empty.dart';
 import 'package:shopappfirebase/src/screens/user_info/widgets/wishlist_full.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 
-class WishList extends StatelessWidget {
+class WishList extends StatefulWidget {
   const WishList({Key? key}) : super(key: key);
 
   @override
+  _WishListState createState() => _WishListState();
+}
+
+class _WishListState extends State<WishList> {
+  WishlistController _wishlistController = Get.find();
+  GlobalMethods _globalMethods = GlobalMethods();
+
+  @override
   Widget build(BuildContext context) {
-    List wishLists = [];
-    return !wishLists.isEmpty
+    return Obx(() => _wishlistController.favItems.isEmpty
         ? Scaffold(body: WishListEmpty())
         : Scaffold(
             appBar: AppBar(
               elevation: 0,
-              title: Text("Wishlist (${wishLists.length})",
+              title: Text("Wishlist (${_wishlistController.favItems.length})",
                   style: Theme.of(context).appBarTheme.textTheme!.headline1),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _globalMethods.showDialog(
+                        title: 'CLEAR ITEMS',
+                        subtitle:
+                            'Product will be clear in Wish List. Do you want to do?',
+                        fct: () {
+                          _wishlistController.clearFav();
+                        },
+                        context: context);
+                  },
                   icon: Icon(Feather.trash),
                 ),
               ],
             ),
             body: ListView.builder(
-              itemCount: 10,
+              itemCount: _wishlistController.favItems.length,
               itemBuilder: (context, index) {
-                return WishListFull();
+                return WishListFull(
+                    index: index,
+                    favId: _wishlistController.favItems.keys.toList()[index],
+                    fav: _wishlistController.favItems.values.toList()[index]);
               },
             ),
-          );
+          ));
   }
 }

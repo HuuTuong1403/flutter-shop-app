@@ -5,6 +5,7 @@ import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/screens/cart/cart_empty.dart';
 import 'package:shopappfirebase/src/screens/cart/cart_full.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key? key}) : super(key: key);
@@ -15,54 +16,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   CartController _cartController = Get.put(CartController());
-
-  Future<void> showDialog(
-      {required String title,
-      required String subtitle,
-      required Function fct}) async {
-    Get.defaultDialog(
-      backgroundColor: Theme.of(context).backgroundColor,
-      title: title.toUpperCase(),
-      titleStyle: TextStyle(color: Colors.redAccent),
-      content: Text(subtitle, textAlign: TextAlign.center),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(15),
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-                child: Text('Cancel',
-                    style: TextStyle(
-                        color: Colors.purple, fontWeight: FontWeight.w600)),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(15),
-                ),
-                onPressed: () {
-                  fct();
-                  Get.back();
-                },
-                child: Text('Cofirm',
-                    style: TextStyle(
-                        color: Colors.purple, fontWeight: FontWeight.w600)),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+  GlobalMethods _globalMethods = GlobalMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +30,14 @@ class _CartPageState extends State<CartPage> {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      showDialog(
+                      _globalMethods.showDialog(
                           title: 'Clear item!',
                           subtitle:
                               'Product will be clear all in this cart. Do you want to do?',
                           fct: () {
                             _cartController.clearCart();
-                          });
+                          },
+                          context: context);
                     },
                     icon: Icon(Feather.trash),
                   ),
@@ -148,11 +103,13 @@ class _CartPageState extends State<CartPage> {
             "Total: ",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
-          Text(
-            "US \$179.990",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w600, color: Colors.blue),
-          ),
+          Obx(() => Text(
+                "US \$${_cartController.totalAmount.toStringAsFixed(3)}",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.blue),
+              )),
         ],
       ),
     );
