@@ -1,12 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/services/authentication_service.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -27,12 +29,19 @@ class _SignUpPageState extends State<SignUpPage> {
   String _phone = '';
   bool _visiblePass = true;
   File? _pickedImage;
+  AuthenticationService _authenticationService = AuthenticationService();
+  GlobalMethods _globalMethods = GlobalMethods();
 
   void _submitFormSignUp() {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState!.save();
+      _authenticationService.signUp(_email, _password, () {
+        Get.toNamed(Routes.LOGIN);
+      }, (err) {
+        _globalMethods.showError(subtitle: err, context: context);
+      });
     }
   }
 
@@ -374,7 +383,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           cursorColor: Colors.purple,
                           key: ValueKey('phone'),
                           validator: (value) {
-                            if ('$value'.isEmpty || '$value'.length < 11) {
+                            if ('$value'.isEmpty || '$value'.length < 10) {
                               return 'Please enter a valid phone number';
                             }
                             return null;

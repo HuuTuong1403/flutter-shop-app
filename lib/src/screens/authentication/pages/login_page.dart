@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/services/authentication_service.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -18,12 +22,24 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode _emailFocus = FocusNode();
   FocusNode _passwordFocus = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  AuthenticationService _authenticationService = AuthenticationService();
+  GlobalMethods _globalMethods = GlobalMethods();
 
   void _submitFormLogin() {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState!.save();
+      _authenticationService.signIn(
+        email: _emailAddress,
+        password: _password,
+        onSuccess: () {
+          Get.offAndToNamed(Routes.HOMESCREEN);
+        },
+        onError: (err) {
+          _globalMethods.showError(subtitle: err, context: context);
+        },
+      );
     }
   }
 
