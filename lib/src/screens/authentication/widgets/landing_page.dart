@@ -46,8 +46,8 @@ class _LandingPageState extends State<LandingPage>
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -234,7 +234,9 @@ class _LandingPageState extends State<LandingPage>
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.offAndToNamed(Routes.HOMESCREEN);
+                      },
                       child: Text(
                         'Sign in as a guest',
                         style: TextStyle(

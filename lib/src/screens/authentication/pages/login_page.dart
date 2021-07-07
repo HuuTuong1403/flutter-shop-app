@@ -29,9 +29,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    super.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
+    super.dispose();
   }
 
   @override

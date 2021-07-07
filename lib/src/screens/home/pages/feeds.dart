@@ -82,7 +82,7 @@ class _FeedsPageState extends State<FeedsPage> {
         padding: const EdgeInsets.only(top: 8),
         child: GridView.count(
             crossAxisCount: 2,
-            childAspectRatio: 240 / 290,
+            childAspectRatio: 240 / 480,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
             children: List.generate(

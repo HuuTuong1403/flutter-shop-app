@@ -141,7 +141,14 @@ class _UserPageState extends State<UserPage> {
                       switchActiveColor: Colors.indigo,
                       title: Text('Dark theme'),
                     ),
-                    _userListTile('Logout', '', Icons.exit_to_app_rounded),
+                    ListTile(
+                      title: Text('Logout'),
+                      subtitle: Text(''),
+                      leading: Icon(Icons.exit_to_app_rounded),
+                      onTap: () {
+                        Get.offAndToNamed(Routes.LANDINGPAGE);
+                      },
+                    ),
                   ],
                 ),
               ),

@@ -218,7 +218,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 30),
-                  height: 330,
+                  height: 350,
                   width: double.infinity,
                   child: ListView.builder(
                     itemCount: products.length,
@@ -317,7 +317,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Container(
                     height: 50,
                     child: ElevatedButton(

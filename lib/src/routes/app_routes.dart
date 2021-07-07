@@ -12,8 +12,10 @@ abstract class Routes {
   static const SEARCHPAGE = '/searchpage';
   static const WISHLIST = '/wishlist';
   static const PRODUCTDETAIL = '/productdetail';
+  static const UPLOADPRODUCT = '/uploadproduct';
 
   //ROUTES AUTHENTICATION SCREEN
+  static const LANDINGPAGE = '/landingpage';
   static const LOGIN = '/login';
   static const SIGNUP = '/signup';
 }

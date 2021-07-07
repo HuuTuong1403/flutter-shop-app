@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shopappfirebase/src/common/color.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -23,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _password = '';
   String _phone = '';
   bool _visiblePass = true;
+  File? _pickedImage;
 
   void _submitFormSignUp() {
     final isValid = _formKey.currentState!.validate();
@@ -34,11 +38,37 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void dispose() {
-    super.dispose();
     _fullNameFocus.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
     _phoneFocus.dispose();
+    super.dispose();
+  }
+
+  void _pickImageFromCamera() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(source: ImageSource.camera);
+    final pickedImageFile = File(pickedImage!.path);
+    setState(() {
+      _pickedImage = pickedImageFile;
+    });
+    Get.back();
+  }
+
+  void _pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    final pickedImageFile = File(pickedImage!.path);
+    setState(() {
+      _pickedImage = pickedImageFile;
+    });
+    Get.back();
+  }
+
+  void _removeImage() {
+    setState(() {
+      _pickedImage = null;
+    });
   }
 
   @override
@@ -70,6 +100,129 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 const SizedBox(height: 30),
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 30),
+                      child: CircleAvatar(
+                        radius: 71,
+                        backgroundColor: AppColor.gradientEnd,
+                        child: CircleAvatar(
+                          radius: 65,
+                          backgroundColor: AppColor.gradientFEnd,
+                          backgroundImage: _pickedImage == null
+                              ? null
+                              : FileImage(_pickedImage!),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 120,
+                      left: 110,
+                      child: RawMaterialButton(
+                        elevation: 10,
+                        fillColor: AppColor.gradientEnd,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Choose option',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColor.gradientStart),
+                                ),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: _pickImageFromCamera,
+                                        splashColor: Colors.grey.shade400,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.camera,
+                                                color: Colors.purpleAccent,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Camera',
+                                              style: TextStyle(
+                                                color: AppColor.title,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: _pickImageFromGallery,
+                                        splashColor: Colors.grey.shade400,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.image,
+                                                color: Colors.purpleAccent,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Gallery',
+                                              style: TextStyle(
+                                                color: AppColor.title,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: _removeImage,
+                                        splashColor: Colors.grey.shade400,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.remove_circle,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Remove',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        shape: CircleBorder(),
+                        padding: const EdgeInsets.all(15),
+                        child: Icon(Icons.add_a_photo),
+                      ),
+                    ),
+                  ],
+                ),
                 Form(
                   key: _formKey,
                   child: Column(

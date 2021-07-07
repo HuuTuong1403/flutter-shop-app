@@ -41,9 +41,7 @@ class _FeedsProductState extends State<FeedsProduct> {
                         minHeight: 100,
                         maxHeight: MediaQuery.of(context).size.height * 0.3,
                       ),
-                      child: Image.network(
-                        '${widget.product.imageUrl}',
-                      ),
+                      child: Image.network('${widget.product.imageUrl}'),
                     ),
                   ),
                   Badge(
@@ -68,7 +66,7 @@ class _FeedsProductState extends State<FeedsProduct> {
                     Text(
                       '${widget.product.title}',
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
