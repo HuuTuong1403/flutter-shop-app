@@ -8,7 +8,6 @@ import 'package:shopappfirebase/src/services/authentication_service.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'package:shopappfirebase/src/routes/app_pages.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -19,10 +18,12 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  
   FocusNode _fullNameFocus = FocusNode();
   FocusNode _emailFocus = FocusNode();
   FocusNode _passwordFocus = FocusNode();
   FocusNode _phoneFocus = FocusNode();
+
   String _fullName = '';
   String _email = '';
   String _password = '';
@@ -32,16 +33,33 @@ class _SignUpPageState extends State<SignUpPage> {
   AuthenticationService _authenticationService = AuthenticationService();
   GlobalMethods _globalMethods = GlobalMethods();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void _submitFormSignUp() {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState!.save();
-      _authenticationService.signUp(_email, _password, () {
-        Get.toNamed(Routes.LOGIN);
-      }, (err) {
-        _globalMethods.showError(subtitle: err, context: context);
-      });
+      if (_pickedImage == null) {
+        _globalMethods.showError(
+            subtitle: 'Please pick an image', context: context);
+      } else {
+        _authenticationService.signUp(
+            email: _email,
+            password: _password,
+            fullName: _fullName,
+            phone: _phone,
+            image: _pickedImage!,
+            onSuccess: () {
+              Get.back();
+            },
+            error: (err) {
+              _globalMethods.showError(subtitle: err, context: context);
+            });
+      }
     }
   }
 

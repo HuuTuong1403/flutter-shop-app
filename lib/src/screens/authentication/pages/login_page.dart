@@ -191,6 +191,23 @@ class _LoginPageState extends State<LoginPage> {
                           onEditingComplete: _submitFormLogin,
                         ),
                       ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2, horizontal: 20),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                color: Colors.blue.shade900,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[

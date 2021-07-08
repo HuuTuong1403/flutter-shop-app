@@ -28,9 +28,11 @@ dependencies:
   badges: ^2.0.1
   cached_network_image: ^3.0.0
   carousel_pro: ^1.0.0
+  cloud_firestore: ^2.3.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^2.0.0
   firebase_core: ^1.3.0
+  firebase_storage: ^9.0.0
   flutter_icons: ^1.1.0
   flutter_staggered_grid_view: ^0.4.0
   flutter_swiper: ^1.1.6
@@ -38,9 +40,11 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   get: ^4.1.4
   get_storage: ^2.0.2
+  google_sign_in: ^5.0.4
   image_picker: ^0.8.1+3
   intl: ^0.17.0
   list_tile_switch: ^1.0.0
+  uuid: ^3.0.4
   wave: ^0.2.0
 
 dev_dependencies:

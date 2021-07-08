@@ -15,7 +15,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  CartController _cartController = Get.put(CartController());
+  CartController _cartController = Get.find();
   GlobalMethods _globalMethods = GlobalMethods();
 
   @override

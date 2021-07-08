@@ -18,11 +18,12 @@ class _SearchPageState extends State<SearchPage> {
   TextEditingController _searchTextController = TextEditingController();
   final FocusNode _node = FocusNode();
   ProductController _productController = Get.find();
-  List<Product> _list = [];
+  List<dynamic> _list = [];
 
   @override
   void initState() {
     super.initState();
+    _productController.getProduct();
     _list = _productController.products;
     _searchTextController.addListener(() {
       setState(() {});
@@ -129,7 +130,8 @@ class _SearchPageState extends State<SearchPage> {
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     crossAxisCount: 2,
-                    childAspectRatio: 240 / 290,
+                    childAspectRatio:
+                        240 / MediaQuery.of(context).size.height * 1.55,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                     children: List.generate(_list.length,

@@ -5,6 +5,7 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/models/product.dart';
+import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/back_layer.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/category.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/popular_products.dart';
@@ -37,12 +38,15 @@ class _HomePageState extends State<HomePage> {
   ];
 
   ProductController _productController = Get.put(ProductController());
-  List<Product> _listPopular = [];
+  var _listPopular = [];
   WishlistController _wishlistController = Get.put(WishlistController());
+  CartController _cartListController = Get.put(CartController());
   @override
   void initState() {
     super.initState();
-    _listPopular = _productController.getPopularItems();
+    _productController.getProduct();
+    _listPopular = _productController.products;
+    // _listPopular = _productController.getPopularItems();
   }
 
   @override

@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/services/authentication_service.dart';
+import 'package:shopappfirebase/src/services/customer_service.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 
@@ -16,7 +20,15 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   bool _value = ThemeService().isSavedDarkMode();
   ScrollController? _scrollController;
-
+  GlobalMethods _globalMethods = GlobalMethods();
+  AuthenticationService _auth = AuthenticationService();
+  CustomerService _customerService = CustomerService();
+  DocumentSnapshot? userDoc;
+  String _name = '';
+  String _email = '';
+  String _phone = '';
+  String _joinedAt = '';
+  String _imageUrl = '';
   @override
   void initState() {
     super.initState();
@@ -24,6 +36,39 @@ class _UserPageState extends State<UserPage> {
     _scrollController!.addListener(() {
       setState(() {});
     });
+    getData();
+  }
+
+  void getData() async {
+    bool check = _customerService.isGuest();
+    if (check) {
+      _name = 'Guest';
+      _email = 'No has';
+      _joinedAt = 'No has';
+      _phone = 'No has';
+      _imageUrl =
+          'https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png';
+    } else {
+      userDoc = await _customerService.getUserInfo();
+      setState(() {
+        userDoc!.get('name') != null
+            ? _name = userDoc!.get('name')
+            : _name = 'Guest';
+        userDoc!.get('email') != null
+            ? _email = userDoc!.get('email')
+            : _email = 'No has';
+        userDoc!.get('joinedAt') != null
+            ? _joinedAt = userDoc!.get('joinedAt')
+            : _joinedAt = 'No has';
+        userDoc!.get('phone') != null
+            ? _phone = userDoc!.get('phone')
+            : _phone = 'No has';
+        userDoc!.get('ImageUrl') != null
+            ? _imageUrl = userDoc!.get('ImageUrl')
+            : _imageUrl =
+                'https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png';
+      });
+    }
   }
 
   var top = 0.0;
@@ -73,22 +118,20 @@ class _UserPageState extends State<UserPage> {
                                       ],
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(
-                                              'https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png')),
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage('$_imageUrl')),
                                     ),
                                   ),
                                   SizedBox(width: 12),
-                                  Text("Guest",
+                                  Text("$_name",
                                       style: TextStyle(
                                           fontSize: 20, color: Colors.white))
                                 ]),
                               ),
                             ]),
                         background: Image(
-                          image: NetworkImage(
-                              'https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png'),
-                          fit: BoxFit.fill,
+                          image: NetworkImage('$_imageUrl'),
+                          fit: BoxFit.contain,
                         ),
                       ),
                     );
@@ -115,10 +158,11 @@ class _UserPageState extends State<UserPage> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    _userListTile('Email', '', Icons.mail),
-                    _userListTile('Phone number', 'null', Icons.phone),
+                    _userListTile('Email', '$_email', Icons.mail),
+                    _userListTile('Phone number', '$_phone', Icons.phone),
                     _userListTile('Shipping address', '', Icons.local_shipping),
-                    _userListTile('Joined date', '', Icons.watch_later),
+                    _userListTile(
+                        'Joined date', '$_joinedAt', Icons.watch_later),
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: _userTitle('User settings'),
@@ -146,7 +190,16 @@ class _UserPageState extends State<UserPage> {
                       subtitle: Text(''),
                       leading: Icon(Icons.exit_to_app_rounded),
                       onTap: () {
-                        Get.offAndToNamed(Routes.LANDINGPAGE);
+                        _globalMethods.showDialog(
+                            title: 'Log Out',
+                            subtitle: 'Do you wanna to logout?',
+                            fct: () {
+                              _auth.logOut(onSuccess: () {
+                                Get.back();
+                                Get.offAndToNamed(Routes.ROOT);
+                              });
+                            },
+                            context: context);
                       },
                     ),
                   ],

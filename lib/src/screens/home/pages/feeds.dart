@@ -24,11 +24,12 @@ class _FeedsPageState extends State<FeedsPage> {
   CartController _cartController = Get.find();
   WishlistController _wishlistController = Get.find();
   String categoryName = '';
-  List<Product> _list = [];
+  List<dynamic> _list = [];
 
   @override
   void initState() {
     super.initState();
+    _productController.getProduct();
     if (widget.category == '') {
       _list = _productController.products;
     } else {

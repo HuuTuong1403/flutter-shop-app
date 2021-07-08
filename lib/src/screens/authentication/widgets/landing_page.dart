@@ -4,6 +4,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
+import 'package:shopappfirebase/src/services/authentication_service.dart';
+import 'package:shopappfirebase/src/services/global_methods.dart';
 
 class LandingPage extends StatefulWidget {
   LandingPage({Key? key}) : super(key: key);
@@ -23,6 +25,9 @@ class _LandingPageState extends State<LandingPage>
 
   late AnimationController _animationController;
   late Animation<double> _animation;
+
+  GlobalMethods _globalMethods = GlobalMethods();
+  AuthenticationService _auth = AuthenticationService();
 
   @override
   void initState() {
@@ -215,7 +220,12 @@ class _LandingPageState extends State<LandingPage>
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _auth.signInWithGoogle(onError: (err) {
+                          _globalMethods.showError(
+                              subtitle: err, context: context);
+                        });
+                      },
                       child: Text(
                         'Google +',
                         style: TextStyle(
@@ -235,7 +245,7 @@ class _LandingPageState extends State<LandingPage>
                         ),
                       ),
                       onPressed: () {
-                        Get.offAndToNamed(Routes.HOMESCREEN);
+                        _auth.signInGuest();
                       },
                       child: Text(
                         'Sign in as a guest',
