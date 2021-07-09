@@ -1,14 +1,16 @@
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/app.dart';
+import 'package:shopappfirebase/src/screens/authentication/pages/forgot_password.dart';
 import 'package:shopappfirebase/src/screens/authentication/pages/login_page.dart';
 import 'package:shopappfirebase/src/screens/authentication/pages/signup_page.dart';
 import 'package:shopappfirebase/src/screens/authentication/widgets/landing_page.dart';
 import 'package:shopappfirebase/src/screens/home/home_screen.dart';
-import 'package:shopappfirebase/src/screens/home/pages/cart.dart';
+import 'package:shopappfirebase/src/screens/cart/pages/cart.dart';
 import 'package:shopappfirebase/src/screens/home/pages/feeds.dart';
 import 'package:shopappfirebase/src/screens/home/pages/home.dart';
 import 'package:shopappfirebase/src/screens/home/pages/search.dart';
 import 'package:shopappfirebase/src/screens/home/pages/user.dart';
+import 'package:shopappfirebase/src/screens/orders/pages/order_page.dart';
 import 'package:shopappfirebase/src/screens/products/pages/product_detail.dart';
 import 'package:shopappfirebase/src/screens/products/pages/upload_product_page.dart';
 import 'package:shopappfirebase/src/screens/user_info/pages/wishlist.dart';
@@ -35,10 +37,15 @@ class AppPages {
         name: Routes.UPLOADPRODUCT,
         page: () => UploadProductPage(),
         children: []),
+    GetPage(name: Routes.ORDER, page: () => OrderPage(), children: []),
 
     //AUTHENTICATION PAGE
     GetPage(name: Routes.LANDINGPAGE, page: () => LandingPage(), children: []),
     GetPage(name: Routes.LOGIN, page: () => LoginPage(), children: []),
     GetPage(name: Routes.SIGNUP, page: () => SignUpPage(), children: []),
+    GetPage(
+        name: Routes.FORGOTPASSWORD,
+        page: () => ForgotPasswordPage(),
+        children: []),
   ];
 }

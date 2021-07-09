@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class Cart {
   final String id;
+  final String productId;
   final String title;
   final int quantity;
   final double price;
@@ -9,6 +10,7 @@ class Cart {
 
   Cart(
       {required this.id,
+      required this.productId,
       required this.title,
       required this.quantity,
       required this.price,
@@ -16,6 +18,7 @@ class Cart {
 
   Cart copyWith({
     String? id,
+    String? productId,
     String? title,
     int? quantity,
     double? price,
@@ -23,6 +26,7 @@ class Cart {
   }) {
     return Cart(
       id: id ?? this.id,
+      productId: productId ?? this.productId,
       title: title ?? this.title,
       price: price ?? this.price,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -33,6 +37,7 @@ class Cart {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'productId': productId,
       'title': title,
       'price': price,
       'imageUrl': imageUrl,
@@ -43,6 +48,7 @@ class Cart {
   factory Cart.fromMap(Map<String, dynamic> map) {
     return Cart(
       id: map['id'],
+      productId: map['productId'],
       title: map['title'],
       price: map['price'],
       imageUrl: map['imageUrl'],
@@ -56,7 +62,7 @@ class Cart {
 
   @override
   String toString() {
-    return 'Product(id: $id, title: $title, price: $price, imageUrl: $imageUrl, quantity: $quantity';
+    return 'Product(id: $id, productId: $productId, title: $title, price: $price, imageUrl: $imageUrl, quantity: $quantity';
   }
 
   @override
@@ -64,6 +70,7 @@ class Cart {
     if (identical(this, other)) return true;
     return other is Cart &&
         other.id == id &&
+        other.productId == productId &&
         other.title == title &&
         other.price == price &&
         other.imageUrl == imageUrl &&
@@ -73,6 +80,7 @@ class Cart {
   @override
   int get hashCode {
     return id.hashCode ^
+        productId.hashCode ^
         title.hashCode ^
         price.hashCode ^
         imageUrl.hashCode ^

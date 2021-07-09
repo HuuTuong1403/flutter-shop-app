@@ -1,8 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
@@ -87,8 +87,8 @@ class SearchByHeader extends SliverPersistentHeaderDelegate {
                       style: TextStyle(color: Colors.white),
                     ),
                     child: IconButton(
-                      icon: Icon(Ionicons.md_cart,
-                          color: AppColor.cartBadgeColor),
+                      icon:
+                          Icon(MyIcon.md_cart, color: AppColor.cartBadgeColor),
                       onPressed: () {
                         Get.toNamed(Routes.CARTPAGE);
                       },

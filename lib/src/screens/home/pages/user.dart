@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/services/authentication_service.dart';
 import 'package:shopappfirebase/src/services/customer_service.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
@@ -147,9 +147,13 @@ class _UserPageState extends State<UserPage> {
                       child: _userTitle('User Bag'),
                     ),
                     _userBag(
-                        'Wishlist', Routes.WISHLIST, Ionicons.ios_heart_empty),
+                        'Wishlist', Routes.WISHLIST, MyIcon.ios_heart_empty),
                     _userBag(
-                        'Cart', Routes.CARTPAGE, MaterialCommunityIcons.cart),
+                      'Cart',
+                      Routes.CARTPAGE,
+                      MyIcon.materialCart,
+                    ),
+                    _userBag('Order', Routes.ORDER, MyIcon.materialCart),
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: _userTitle('User Information'),
@@ -173,7 +177,7 @@ class _UserPageState extends State<UserPage> {
                     ),
                     ListTileSwitch(
                       value: _value,
-                      leading: Icon(Ionicons.md_moon),
+                      leading: Icon(MyIcon.md_moon),
                       onChanged: (value) {
                         setState(() {
                           _value = !ThemeService().isSavedDarkMode();

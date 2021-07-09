@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
@@ -58,7 +58,7 @@ class _PopularProductsState extends State<PopularProducts> {
                       right: 10,
                       top: 8,
                       child: Obx(() => Icon(
-                            Entypo.star,
+                            MyIcon.star,
                             color: _wishlistController.favItems
                                     .containsKey(widget.product.id)
                                 ? Colors.red
@@ -69,7 +69,7 @@ class _PopularProductsState extends State<PopularProducts> {
                       right: 10,
                       top: 8,
                       child: Icon(
-                        Entypo.star_outlined,
+                        MyIcon.star_outlined,
                         color: Colors.white,
                       ),
                     ),
@@ -118,7 +118,7 @@ class _PopularProductsState extends State<PopularProducts> {
                                           .containsKey(widget.product.id)
                                       ? Icon(Icons.check,
                                           size: 25, color: Colors.black)
-                                      : Icon(MaterialCommunityIcons.cart_plus,
+                                      : Icon(MyIcon.materialCartPlus,
                                           size: 25, color: Colors.black),
                                   onPressed: _cartController.cartItems
                                           .containsKey(widget.product.id)

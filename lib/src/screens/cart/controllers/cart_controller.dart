@@ -13,25 +13,27 @@ class CartController extends GetxController {
   }
 
   void addProductToCart(
-    String productID,
+    String productId,
     double price,
     String title,
     String imageUrl,
   ) {
-    if (cartItems.containsKey(productID)) {
+    if (cartItems.containsKey(productId)) {
       cartItems.update(
-          productID,
+          productId,
           (exitingCartItem) => Cart(
               id: exitingCartItem.id,
+              productId: exitingCartItem.productId,
               title: exitingCartItem.title,
               price: exitingCartItem.price,
               quantity: exitingCartItem.quantity + 1,
               imageUrl: exitingCartItem.imageUrl));
     } else {
       cartItems.putIfAbsent(
-          productID,
+          productId,
           () => Cart(
               id: DateTime.now().toString(),
+              productId: productId,
               title: title,
               price: price,
               quantity: 1,
@@ -41,15 +43,16 @@ class CartController extends GetxController {
   }
 
   void reduceProductInCart(
-    String productID,
+    String productId,
     double price,
     String title,
     String imageUrl,
   ) {
     cartItems.update(
-        productID,
+        productId,
         (exitingCartItem) => Cart(
             id: exitingCartItem.id,
+            productId: exitingCartItem.productId,
             title: exitingCartItem.title,
             price: exitingCartItem.price,
             quantity: exitingCartItem.quantity - 1,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:shopappfirebase/src/screens/home/pages/cart.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
+import 'package:shopappfirebase/src/screens/cart/pages/cart.dart';
 import 'package:shopappfirebase/src/screens/home/pages/feeds.dart';
 import 'package:shopappfirebase/src/screens/home/pages/home.dart';
 import 'package:shopappfirebase/src/screens/home/pages/search.dart';
@@ -59,17 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: "Home", tooltip: "Home"),
                   BottomNavigationBarItem(
-                      icon: Icon(Feather.rss),
+                      icon: Icon(MyIcon.rss),
                       label: "Feeds",
                       tooltip: "Feeds"),
                   BottomNavigationBarItem(
                       icon: Icon(null), label: "Search", tooltip: "Search"),
                   BottomNavigationBarItem(
-                      icon: Icon(Feather.shopping_bag),
+                      icon: Icon(MyIcon.shopping_bag),
                       label: "Cart",
                       tooltip: "Cart"),
                   BottomNavigationBarItem(
-                      icon: Icon(Feather.user), label: "User", tooltip: "User"),
+                      icon: Icon(MyIcon.user), label: "User", tooltip: "User"),
                 ],
               ),
             ),
@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             splashColor: Colors.grey,
             tooltip: "Search",
             elevation: 4,
-            child: Icon(Feather.search),
+            child: Icon(MyIcon.search),
             onPressed: () {
               setState(() {
                 _currentIndex = 2;

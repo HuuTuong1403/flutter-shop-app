@@ -1,9 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
-import 'package:shopappfirebase/src/models/product.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/feeds/feeds_product.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
@@ -74,7 +73,7 @@ class _FeedsPageState extends State<FeedsPage> {
                   badgeContent: Text(
                       _cartController.cartItems.length.toString(),
                       style: TextStyle(color: Colors.white)),
-                  child: Icon(Ionicons.md_cart, color: Colors.purple),
+                  child: Icon(MyIcon.md_cart, color: Colors.purple),
                 ),
               )),
         ],

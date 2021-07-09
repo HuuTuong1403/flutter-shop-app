@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/services/authentication_service.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:wave/config.dart';
@@ -197,7 +197,9 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 2, horizontal: 20),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed(Routes.FORGOTPASSWORD);
+                            },
                             child: Text(
                               'Forgot password?',
                               style: TextStyle(
@@ -237,7 +239,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                Icon(Feather.user, size: 16),
+                                Icon(MyIcon.user, size: 16),
                               ],
                             ),
                           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/models/cart.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
@@ -96,7 +96,7 @@ class _CartFullState extends State<CartFull> {
                             child: Container(
                               height: 50,
                               width: 50,
-                              child: Icon(Entypo.cross,
+                              child: Icon(MyIcon.cross,
                                   color: Colors.red, size: 22),
                             ),
                           ),
@@ -173,7 +173,7 @@ class _CartFullState extends State<CartFull> {
                                       },
                                 child: Container(
                                   padding: const EdgeInsets.all(5),
-                                  child: Icon(Entypo.minus,
+                                  child: Icon(MyIcon.minus,
                                       color: _cartController.cartItems.values
                                                   .toList()[widget.index]
                                                   .quantity <
@@ -216,7 +216,7 @@ class _CartFullState extends State<CartFull> {
                             },
                             child: Container(
                               padding: const EdgeInsets.all(5),
-                              child: Icon(Entypo.plus,
+                              child: Icon(MyIcon.plus,
                                   color: Colors.green, size: 22),
                             ),
                           ),

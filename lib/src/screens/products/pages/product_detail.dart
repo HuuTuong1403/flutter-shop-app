@@ -1,8 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/feeds/feeds_product.dart';
@@ -10,8 +10,6 @@ import 'package:shopappfirebase/src/screens/products/controllers/product_control
 import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 import 'package:shopappfirebase/src/themes/theme_service.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
-
-import '../../../fake_data.dart';
 
 class ProductDetail extends StatefulWidget {
   ProductDetail({Key? key}) : super(key: key);
@@ -23,16 +21,18 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   bool isDark = ThemeService().isSavedDarkMode();
   String productId = Get.arguments[0];
-  CartController _cartController = Get.put(CartController());
-  ProductController _productController = Get.put(ProductController());
+  CartController _cartController = Get.find();
+  ProductController _productController = Get.find();
   WishlistController _wishlistController = Get.find();
-
+  var _listProduct = [];
   Product _detail = Product();
 
   @override
   void initState() {
     super.initState();
     _detail = _productController.findByID(productId);
+    _productController.getProduct();
+    _listProduct = _productController.products;
   }
 
   @override
@@ -221,11 +221,11 @@ class _ProductDetailState extends State<ProductDetail> {
                   height: 350,
                   width: double.infinity,
                   child: ListView.builder(
-                    itemCount: products.length,
+                    itemCount: _listProduct.length, 
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return FeedsProduct(
-                        product: products[index],
+                        product: _listProduct[index],
                       );
                     },
                   ),
@@ -274,7 +274,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           _cartController.cartItems.length.toString(),
                           style: TextStyle(color: Colors.white)),
                       child: IconButton(
-                        icon: Icon(Ionicons.md_cart, color: Colors.purple),
+                        icon: Icon(MyIcon.md_cart, color: Colors.purple),
                         onPressed: () {
                           Get.toNamed(Routes.CARTPAGE);
                         },
@@ -365,7 +365,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               _wishlistController.favItems
                                       .containsKey(_detail.id)
                                   ? Icons.favorite
-                                  : Ionicons.ios_heart_empty,
+                                  : MyIcon.ios_heart_empty,
                               color: _wishlistController.favItems
                                       .containsKey(_detail.id)
                                   ? Colors.red

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 
-class BackLayerMenu extends StatelessWidget {
+class BackLayerMenu extends StatefulWidget {
+  @override
+  _BackLayerMenuState createState() => _BackLayerMenuState();
+}
+
+class _BackLayerMenuState extends State<BackLayerMenu> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -125,9 +130,9 @@ class BackLayerMenu extends StatelessWidget {
 
   List<IconData> _contentIcons = [
     Icons.rss_feed_rounded,
-    Feather.shopping_bag,
-    Feather.heart,
-    Feather.upload
+    MyIcon.shopping_bag,
+    MyIcon.heart,
+    MyIcon.upload
   ];
 
   void navigateTo(BuildContext context, String routes) {

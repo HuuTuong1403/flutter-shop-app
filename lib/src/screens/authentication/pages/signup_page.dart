@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/services/authentication_service.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:wave/config.dart';
@@ -464,7 +464,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                Icon(Feather.user_plus, size: 16),
+                                Icon(MyIcon.user_plus, size: 16),
                               ],
                             ),
                           ),

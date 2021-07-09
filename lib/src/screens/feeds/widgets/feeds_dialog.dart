@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
@@ -126,8 +126,8 @@ class _FeedsDialogState extends State<FeedsDialog> {
       _wishlistController.favItems.containsKey(widget.productId)
           ? Icons.favorite
           : Icons.favorite_border,
-      Feather.eye,
-      Ionicons.md_cart,
+      MyIcon.eye,
+      MyIcon.md_cart,
     ];
 
     List<String> _dialogTexts = [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:get/get.dart'; 
+import 'package:get/get.dart';
+import 'package:shopappfirebase/src/common/myicon.dart'; 
 import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
 import 'package:shopappfirebase/src/screens/user_info/widgets/wishlist_empty.dart';
 import 'package:shopappfirebase/src/screens/user_info/widgets/wishlist_full.dart';
@@ -38,7 +38,7 @@ class _WishListState extends State<WishList> {
                         },
                         context: context);
                   },
-                  icon: Icon(Feather.trash),
+                  icon: Icon(MyIcon.trash),
                 ),
               ],
             ),

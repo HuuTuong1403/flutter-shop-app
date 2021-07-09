@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
-import 'package:shopappfirebase/src/screens/cart/cart_empty.dart';
-import 'package:shopappfirebase/src/screens/cart/cart_full.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
+import 'package:shopappfirebase/src/screens/cart/widgets/cart_empty.dart';
+import 'package:shopappfirebase/src/screens/cart/widgets/cart_full.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
+import 'package:shopappfirebase/src/services/order_service.dart';
+import 'package:shopappfirebase/src/services/payment_service.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key? key}) : super(key: key);
@@ -17,6 +19,13 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   CartController _cartController = Get.find();
   GlobalMethods _globalMethods = GlobalMethods();
+  OrderService _orderService = OrderService();
+
+  @override
+  void initState() {
+    super.initState();
+    StripeService.init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +48,7 @@ class _CartPageState extends State<CartPage> {
                           },
                           context: context);
                     },
-                    icon: Icon(Feather.trash),
+                    icon: Icon(MyIcon.trash),
                   ),
                 ],
               ),
@@ -87,7 +96,30 @@ class _CartPageState extends State<CartPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     )),
-                onPressed: () {},
+                onPressed: () async {
+                  double amountInCent = double.parse(
+                          '${_cartController.totalAmount.toStringAsFixed(3)}') *
+                      1000;
+                  int intergerAmount = (amountInCent / 10).ceil();
+                  var response = await StripeService.paymentWithNewCard(
+                      amount: intergerAmount.toString(), currency: 'USD');
+                  if (response.success == true) {
+                    _orderService.uploadOrder(onError: (err) {
+                      _globalMethods.showError(subtitle: err, context: context);
+                    });
+                    Get.snackbar(
+                      'Notification',
+                      response.message,
+                      duration: Duration(
+                          milliseconds: response.success == true ? 1200 : 3000),
+                      backgroundColor: Theme.of(context).backgroundColor,
+                    );
+                  } else {
+                    _globalMethods.showError(
+                        subtitle: 'Please enter your true information',
+                        context: context);
+                  }
+                },
                 child: Text(
                   "Checkout",
                   style: TextStyle(

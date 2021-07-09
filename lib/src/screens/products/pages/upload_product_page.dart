@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/screens/products/widgets/gradient_icon.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
 import 'package:shopappfirebase/src/services/product_service.dart';
@@ -181,7 +181,7 @@ class _UploadProductPageState extends State<UploadProductPage> {
                         ),
                       )
                     : GradientIcon(
-                        icon: Feather.upload,
+                        icon: MyIcon.upload,
                         size: 20,
                         gradient: LinearGradient(
                           colors: <Color>[
@@ -371,7 +371,7 @@ class _UploadProductPageState extends State<UploadProductPage> {
                                   padding: const EdgeInsets.only(right: 9),
                                   child: Container(
                                     child: TextFormField(
-                                      readOnly: true, 
+                                      readOnly: true,
                                       key: ValueKey('Category'),
                                       controller: _categoryController,
                                       validator: (value) {

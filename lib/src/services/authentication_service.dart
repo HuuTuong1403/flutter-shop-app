@@ -103,4 +103,13 @@ class AuthenticationService {
   Future<void> signInGuest() async {
     await _auth.signInAnonymously();
   }
+
+  Future<void> forgetPassword(
+      {required String email, required Function onError}) async {
+    await _auth
+        .sendPasswordResetEmail(email: email.trim().toLowerCase())
+        .catchError((err) {
+      onError('${err.message}');
+    });
+  }
 }

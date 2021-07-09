@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
-import 'package:shopappfirebase/src/models/product.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/screens/feeds/feeds_product.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
 import 'package:shopappfirebase/src/screens/search/widgets/search_by_header.dart';
@@ -94,7 +93,7 @@ class _SearchPageState extends State<SearchPage> {
                                 _searchTextController.clear();
                                 _list = _productController.products;
                               },
-                        icon: Icon(Feather.x,
+                        icon: Icon(MyIcon.x,
                             color: _searchTextController.text.isNotEmpty
                                 ? Colors.red
                                 : Colors.grey)),

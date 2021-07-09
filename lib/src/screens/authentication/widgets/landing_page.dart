@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
+import 'package:shopappfirebase/src/common/myicon.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 import 'package:shopappfirebase/src/services/authentication_service.dart';
 import 'package:shopappfirebase/src/services/global_methods.dart';
@@ -133,7 +133,7 @@ class _LandingPageState extends State<LandingPage>
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Icon(Feather.user, size: 16),
+                          Icon(MyIcon.user, size: 16),
                         ],
                       ),
                     ),
@@ -167,7 +167,7 @@ class _LandingPageState extends State<LandingPage>
                           ),
                           const SizedBox(width: 5),
                           Icon(
-                            Feather.user_plus,
+                            MyIcon.user_plus,
                             size: 16,
                           )
                         ],

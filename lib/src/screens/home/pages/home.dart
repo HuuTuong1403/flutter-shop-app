@@ -1,14 +1,15 @@
 import 'package:backdrop/backdrop.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:get/get.dart';
 import 'package:shopappfirebase/src/common/color.dart';
-import 'package:shopappfirebase/src/models/product.dart';
 import 'package:shopappfirebase/src/screens/cart/controllers/cart_controller.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/back_layer.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/category.dart';
 import 'package:shopappfirebase/src/screens/home/widgets/popular_products.dart';
+import 'package:shopappfirebase/src/screens/orders/controllers/order_controller.dart';
 import 'package:shopappfirebase/src/screens/products/controllers/product_controller.dart';
 import 'package:shopappfirebase/src/routes/app_pages.dart';
 import 'package:shopappfirebase/src/screens/user_info/controllers/wishlist_controller.dart';
@@ -39,14 +40,19 @@ class _HomePageState extends State<HomePage> {
 
   ProductController _productController = Get.put(ProductController());
   var _listPopular = [];
+
+  // ignore: unused_field
   WishlistController _wishlistController = Get.put(WishlistController());
+  // ignore: unused_field
   CartController _cartListController = Get.put(CartController());
+
+  OrderController _orderController = Get.put(OrderController());
   @override
   void initState() {
     super.initState();
     _productController.getProduct();
-    _listPopular = _productController.products;
-    // _listPopular = _productController.getPopularItems();
+    _orderController.getOrder();
+    _listPopular = _productController.getPopularItems();
   }
 
   @override
@@ -138,16 +144,20 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               _categoriesTile(title: "Popular Products", showViewAll: true),
-              Container(
-                width: double.infinity,
-                height: 285,
-                margin: const EdgeInsets.symmetric(horizontal: 3),
-                child: ListView.builder(
-                    itemCount: _listPopular.length,
-                    itemBuilder: (context, index) => PopularProducts(
-                        index: index, product: _listPopular[index]),
-                    scrollDirection: Axis.horizontal),
-              ),
+              FutureBuilder(
+                  future: _productController.getProduct(),
+                  builder: (context, snapshot) {
+                    return Container(
+                      width: double.infinity,
+                      height: 285,
+                      margin: const EdgeInsets.symmetric(horizontal: 3),
+                      child: ListView.builder(
+                          itemCount: _listPopular.length,
+                          itemBuilder: (context, index) => PopularProducts(
+                              index: index, product: _listPopular[index]),
+                          scrollDirection: Axis.horizontal),
+                    );
+                  }),
               _categoriesTile(title: "Viewed recently", showViewAll: true),
             ],
           ),
